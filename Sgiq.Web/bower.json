@@ -9,10 +9,14 @@
     "bootstrap": "v4.0.0-beta",
     "font-awesome": "Font-Awesome#v4.7.0",
     "datatables": "DataTables#1.10.16",
-    "jquery-ui": "1.12.1"
+    "jquery-ui": "1.12.1",
+    "select2": "4.0.6-rc.0",
+    "select2-bootstrap-theme": "0.1.0-beta.10"
   },
   "resolutions": {
     "jquery": "3.2.1",
-    "jquery-validation": "1.17.0"
+    "jquery-validation": "1.17.0",
+    "bootstrap": "v4.0.0-beta",
+    "select2": "4.0.6-rc.0"
   }
 }
