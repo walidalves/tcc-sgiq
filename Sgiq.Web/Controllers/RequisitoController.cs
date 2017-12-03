@@ -7,27 +7,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Sgiq.Web.Controllers
 {
-    public class ProjetoController : Controller
+    public class RequisitoController : Controller
     {
-        // GET: Projeto
+        // GET: Requisito
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Projeto/Details/5
+        // GET: Requisito/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Projeto/Create
+        // GET: Requisito/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Projeto/Create
+        // POST: Requisito/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -44,13 +44,13 @@ namespace Sgiq.Web.Controllers
             }
         }
 
-        // GET: Projeto/Edit/5
+        // GET: Requisito/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Projeto/Edit/5
+        // POST: Requisito/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -67,13 +67,13 @@ namespace Sgiq.Web.Controllers
             }
         }
 
-        // GET: Projeto/Delete/5
+        // GET: Requisito/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Projeto/Delete/5
+        // POST: Requisito/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -88,13 +88,6 @@ namespace Sgiq.Web.Controllers
             {
                 return View();
             }
-        }
-
-        [Route("{id}/PartesInteressadas")]
-        [HttpGet]
-        public ActionResult PartesInteressadas(int id)
-        {
-            return View();
         }
     }
 }
