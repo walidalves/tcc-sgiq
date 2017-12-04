@@ -20,13 +20,13 @@ namespace Sgiq.Dados.Models
         [MaxLength(250)]
         public string Descricao { get; set; }
 
-        //[Required]
-        //[Column(TypeName  = "datetime")]
-        //public DateTime DtInicioPrevista { get; set; }
+        [Required]
+        [Column(TypeName = "datetime")]
+        public DateTime DtInicioPrevista { get; set; }
 
-        //[Required]
-        //[Column(TypeName = "datetime")]
-        //public DateTime DtTerminoPrevista { get; set; }
+        [Required]
+        [Column(TypeName = "datetime")]
+        public DateTime DtTerminoPrevista { get; set; }
 
         public decimal CustoEstimado { get; set; }
         
