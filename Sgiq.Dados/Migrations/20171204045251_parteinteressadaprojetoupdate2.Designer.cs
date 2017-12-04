@@ -11,9 +11,10 @@ using System;
 namespace Sgiq.Dados.Migrations
 {
     [DbContext(typeof(SGIQContext))]
-    partial class SGIQContextModelSnapshot : ModelSnapshot
+    [Migration("20171204045251_parteinteressadaprojetoupdate2")]
+    partial class parteinteressadaprojetoupdate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,45 +49,6 @@ namespace Sgiq.Dados.Migrations
                     b.HasKey("PapelId");
 
                     b.ToTable("Papel");
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.ParteInteressada", b =>
-                {
-                    b.Property<int>("ParteInteressadaId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(60);
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(60);
-
-                    b.Property<string>("Telefone")
-                        .HasMaxLength(12);
-
-                    b.HasKey("ParteInteressadaId");
-
-                    b.ToTable("ParteInteressada");
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.ParteInteressadaProjeto", b =>
-                {
-                    b.Property<int>("ProjetoId");
-
-                    b.Property<int>("ParteInteressadaId");
-
-                    b.Property<int>("PapelId");
-
-                    b.HasKey("ProjetoId", "ParteInteressadaId");
-
-                    b.HasAlternateKey("ParteInteressadaId", "ProjetoId");
-
-                    b.HasIndex("PapelId");
-
-                    b.ToTable("ParteInteressadaProjeto");
                 });
 
             modelBuilder.Entity("Sgiq.Dados.Models.Projeto", b =>
@@ -157,24 +119,6 @@ namespace Sgiq.Dados.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TipoRequisito");
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.ParteInteressadaProjeto", b =>
-                {
-                    b.HasOne("Sgiq.Dados.Models.Papel", "Papel")
-                        .WithMany()
-                        .HasForeignKey("PapelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Sgiq.Dados.Models.ParteInteressada", "ParteInteressada")
-                        .WithMany("PartesInteressadasProjeto")
-                        .HasForeignKey("ParteInteressadaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Sgiq.Dados.Models.Projeto", "Projeto")
-                        .WithMany("PartesInteressadasProjeto")
-                        .HasForeignKey("ProjetoId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Sgiq.Dados.Models.Projeto", b =>

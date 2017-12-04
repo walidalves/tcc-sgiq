@@ -10,10 +10,12 @@ namespace Sgiq.Dados.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int SituacaoProjetoId { get; set; }
 
         [Required]
         [MaxLength(30)]
         public string Nome { get; set; }
+
+        public List<Projeto> Projetos { get; set; }
     }
 }
