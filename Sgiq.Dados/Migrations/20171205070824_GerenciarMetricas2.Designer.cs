@@ -11,9 +11,10 @@ using System;
 namespace Sgiq.Dados.Migrations
 {
     [DbContext(typeof(SGIQContext))]
-    partial class SGIQContextModelSnapshot : ModelSnapshot
+    [Migration("20171205070824_GerenciarMetricas2")]
+    partial class GerenciarMetricas2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,40 +48,6 @@ namespace Sgiq.Dados.Migrations
                     b.HasIndex("ProjetoId");
 
                     b.ToTable("Atividade");
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.AvaliacaoProjeto", b =>
-                {
-                    b.Property<int>("ProjetoId");
-
-                    b.Property<string>("Chave")
-                        .IsRequired();
-
-                    b.Property<DateTime>("DtAvaliacao");
-
-                    b.Property<int>("ParteInteressadaId");
-
-                    b.Property<int>("VlrAvaliacao");
-
-                    b.HasKey("ProjetoId");
-
-                    b.HasIndex("ParteInteressadaId")
-                        .IsUnique();
-
-                    b.ToTable("AvaliacaoProjeto");
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.AvaliacaoRequisito", b =>
-                {
-                    b.Property<int>("RequisitoId");
-
-                    b.Property<DateTime>("DtAvaliacao");
-
-                    b.Property<int>("VlrAvaliacao");
-
-                    b.HasKey("RequisitoId");
-
-                    b.ToTable("AvaliacaoRequisito");
                 });
 
             modelBuilder.Entity("Sgiq.Dados.Models.Condicao", b =>
@@ -383,27 +350,6 @@ namespace Sgiq.Dados.Migrations
                     b.HasOne("Sgiq.Dados.Models.Projeto")
                         .WithMany("Atividades")
                         .HasForeignKey("ProjetoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.AvaliacaoProjeto", b =>
-                {
-                    b.HasOne("Sgiq.Dados.Models.ParteInteressada", "ParteInteressada")
-                        .WithOne("AvaliacaoProjeto")
-                        .HasForeignKey("Sgiq.Dados.Models.AvaliacaoProjeto", "ParteInteressadaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Sgiq.Dados.Models.Projeto", "Projeto")
-                        .WithOne("AvaliacaoProjeto")
-                        .HasForeignKey("Sgiq.Dados.Models.AvaliacaoProjeto", "ProjetoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.AvaliacaoRequisito", b =>
-                {
-                    b.HasOne("Sgiq.Dados.Models.Requisito", "Requisito")
-                        .WithOne("AvaliacaoRequisito")
-                        .HasForeignKey("Sgiq.Dados.Models.AvaliacaoRequisito", "RequisitoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

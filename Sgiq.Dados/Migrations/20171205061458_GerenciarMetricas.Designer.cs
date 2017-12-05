@@ -11,9 +11,10 @@ using System;
 namespace Sgiq.Dados.Migrations
 {
     [DbContext(typeof(SGIQContext))]
-    partial class SGIQContextModelSnapshot : ModelSnapshot
+    [Migration("20171205061458_GerenciarMetricas")]
+    partial class GerenciarMetricas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,40 +50,6 @@ namespace Sgiq.Dados.Migrations
                     b.ToTable("Atividade");
                 });
 
-            modelBuilder.Entity("Sgiq.Dados.Models.AvaliacaoProjeto", b =>
-                {
-                    b.Property<int>("ProjetoId");
-
-                    b.Property<string>("Chave")
-                        .IsRequired();
-
-                    b.Property<DateTime>("DtAvaliacao");
-
-                    b.Property<int>("ParteInteressadaId");
-
-                    b.Property<int>("VlrAvaliacao");
-
-                    b.HasKey("ProjetoId");
-
-                    b.HasIndex("ParteInteressadaId")
-                        .IsUnique();
-
-                    b.ToTable("AvaliacaoProjeto");
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.AvaliacaoRequisito", b =>
-                {
-                    b.Property<int>("RequisitoId");
-
-                    b.Property<DateTime>("DtAvaliacao");
-
-                    b.Property<int>("VlrAvaliacao");
-
-                    b.HasKey("RequisitoId");
-
-                    b.ToTable("AvaliacaoRequisito");
-                });
-
             modelBuilder.Entity("Sgiq.Dados.Models.Condicao", b =>
                 {
                     b.Property<int>("CondicaoId")
@@ -109,22 +76,13 @@ namespace Sgiq.Dados.Migrations
 
                     b.Property<int>("MetricaId");
 
+                    b.Property<int?>("ProjetoId");
+
                     b.HasKey("IndicadorId");
-
-                    b.ToTable("Indicador");
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.IndicadorProjeto", b =>
-                {
-                    b.Property<int>("IndicadorId");
-
-                    b.Property<int>("ProjetoId");
-
-                    b.HasKey("IndicadorId", "ProjetoId");
 
                     b.HasIndex("ProjetoId");
 
-                    b.ToTable("IndicadorProjeto");
+                    b.ToTable("Indicador");
                 });
 
             modelBuilder.Entity("Sgiq.Dados.Models.Medicao", b =>
@@ -156,6 +114,8 @@ namespace Sgiq.Dados.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("MetricaId");
+
                     b.Property<int>("TipoDadoId");
 
                     b.Property<decimal>("VlrMaximo");
@@ -164,20 +124,9 @@ namespace Sgiq.Dados.Migrations
 
                     b.HasKey("MedidaId");
 
-                    b.ToTable("Medida");
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.MedidaMetrica", b =>
-                {
-                    b.Property<int>("MedidaId");
-
-                    b.Property<int>("MetricaId");
-
-                    b.HasKey("MedidaId", "MetricaId");
-
                     b.HasIndex("MetricaId");
 
-                    b.ToTable("MedidaMetrica");
+                    b.ToTable("Medida");
                 });
 
             modelBuilder.Entity("Sgiq.Dados.Models.MetaIndicador", b =>
@@ -213,11 +162,15 @@ namespace Sgiq.Dados.Migrations
 
                     b.Property<int>("FrequenciaAfericaoId");
 
+                    b.Property<int?>("MedidaId");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(60);
 
                     b.HasKey("MetricaId");
+
+                    b.HasIndex("MedidaId");
 
                     b.ToTable("Metrica");
                 });
@@ -294,6 +247,8 @@ namespace Sgiq.Dados.Migrations
                     b.Property<DateTime>("DtTerminoPrevista")
                         .HasColumnType("datetime");
 
+                    b.Property<int?>("IndicadorId");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(60);
@@ -301,6 +256,8 @@ namespace Sgiq.Dados.Migrations
                     b.Property<int>("SituacaoProjetoId");
 
                     b.HasKey("ProjetoId");
+
+                    b.HasIndex("IndicadorId");
 
                     b.HasIndex("SituacaoProjetoId");
 
@@ -386,38 +343,11 @@ namespace Sgiq.Dados.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Sgiq.Dados.Models.AvaliacaoProjeto", b =>
+            modelBuilder.Entity("Sgiq.Dados.Models.Indicador", b =>
                 {
-                    b.HasOne("Sgiq.Dados.Models.ParteInteressada", "ParteInteressada")
-                        .WithOne("AvaliacaoProjeto")
-                        .HasForeignKey("Sgiq.Dados.Models.AvaliacaoProjeto", "ParteInteressadaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Sgiq.Dados.Models.Projeto", "Projeto")
-                        .WithOne("AvaliacaoProjeto")
-                        .HasForeignKey("Sgiq.Dados.Models.AvaliacaoProjeto", "ProjetoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.AvaliacaoRequisito", b =>
-                {
-                    b.HasOne("Sgiq.Dados.Models.Requisito", "Requisito")
-                        .WithOne("AvaliacaoRequisito")
-                        .HasForeignKey("Sgiq.Dados.Models.AvaliacaoRequisito", "RequisitoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Sgiq.Dados.Models.IndicadorProjeto", b =>
-                {
-                    b.HasOne("Sgiq.Dados.Models.Indicador", "Indicador")
-                        .WithMany("IndicadoresProjeto")
-                        .HasForeignKey("IndicadorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Sgiq.Dados.Models.Projeto", "Projeto")
-                        .WithMany("IndicadoresProjeto")
-                        .HasForeignKey("ProjetoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("Sgiq.Dados.Models.Projeto")
+                        .WithMany("Indicadores")
+                        .HasForeignKey("ProjetoId");
                 });
 
             modelBuilder.Entity("Sgiq.Dados.Models.Medicao", b =>
@@ -433,17 +363,11 @@ namespace Sgiq.Dados.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Sgiq.Dados.Models.MedidaMetrica", b =>
+            modelBuilder.Entity("Sgiq.Dados.Models.Medida", b =>
                 {
-                    b.HasOne("Sgiq.Dados.Models.Medida", "Medida")
-                        .WithMany("MedidasMetrica")
-                        .HasForeignKey("MedidaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Sgiq.Dados.Models.Metrica", "Metrica")
-                        .WithMany("MedidasMetrica")
-                        .HasForeignKey("MetricaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("Sgiq.Dados.Models.Metrica")
+                        .WithMany("Medidas")
+                        .HasForeignKey("MetricaId");
                 });
 
             modelBuilder.Entity("Sgiq.Dados.Models.MetaIndicador", b =>
@@ -457,6 +381,13 @@ namespace Sgiq.Dados.Migrations
                         .WithMany("MetasIndicador")
                         .HasForeignKey("IndicadorId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Sgiq.Dados.Models.Metrica", b =>
+                {
+                    b.HasOne("Sgiq.Dados.Models.Medida")
+                        .WithMany("Metricas")
+                        .HasForeignKey("MedidaId");
                 });
 
             modelBuilder.Entity("Sgiq.Dados.Models.ParteInteressadaProjeto", b =>
@@ -479,6 +410,10 @@ namespace Sgiq.Dados.Migrations
 
             modelBuilder.Entity("Sgiq.Dados.Models.Projeto", b =>
                 {
+                    b.HasOne("Sgiq.Dados.Models.Indicador")
+                        .WithMany("Projetos")
+                        .HasForeignKey("IndicadorId");
+
                     b.HasOne("Sgiq.Dados.Models.SituacaoProjeto")
                         .WithMany("Projetos")
                         .HasForeignKey("SituacaoProjetoId")

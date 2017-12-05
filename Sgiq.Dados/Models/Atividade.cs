@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sgiq.Dados.Models
 {
-    public class Projeto
+    public class Atividade
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ProjetoId { get; set; }
+        public int AtividadeId { get; set; }
 
         [Required]
         [MaxLength(60)]
@@ -27,22 +26,7 @@ namespace Sgiq.Dados.Models
         [Column(TypeName = "datetime")]
         public DateTime DtTerminoPrevista { get; set; }
 
-        public decimal CustoEstimado { get; set; }
-
-        public int SituacaoProjetoId { get; set; }
-
-        public virtual List<ParteInteressadaProjeto> PartesInteressadasProjeto { get; set; }
-
-        public virtual List<Atividade> Atividades { get; set; }
-
-        public virtual List<Requisito> Requisitos { get; set; }
-
-        public virtual List<IndicadorProjeto> IndicadoresProjeto { get; set; }
-
-        public virtual List<Medicao> Medicoes { get; set; }
-
-        public virtual AvaliacaoProjeto AvaliacaoProjeto { get; set; }
-
+        public int ProjetoId { get; set; }
 
     }
 }

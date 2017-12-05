@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Sgiq.Dados.Models
 {
-   public class SituacaoProjeto
+    public class SituacaoProjeto
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

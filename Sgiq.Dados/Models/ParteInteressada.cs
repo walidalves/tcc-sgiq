@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Sgiq.Dados.Models
 {
-   public class ParteInteressada
+    public class ParteInteressada
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,6 +22,8 @@ namespace Sgiq.Dados.Models
         [MaxLength(12)]
         public string Telefone { get; set; }
 
-        public List<ParteInteressadaProjeto> PartesInteressadasProjeto { get; set; }
+        public virtual List<ParteInteressadaProjeto> PartesInteressadasProjeto { get; set; }
+
+        public virtual AvaliacaoProjeto AvaliacaoProjeto { get; set; }
     }
 }

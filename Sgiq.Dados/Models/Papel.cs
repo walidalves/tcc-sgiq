@@ -13,6 +13,8 @@ namespace Sgiq.Dados.Models
         [Required]
         [MaxLength(30)]
         public string Nome { get; set; }
+
+        public List<ParteInteressadaProjeto> PartesInteressadasProjeto { get; set; }
         
     }
 }
