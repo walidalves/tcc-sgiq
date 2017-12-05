@@ -4,16 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sgiq.Dados.Models
 {
-    public partial class TipoDado
+    public class FrequenciaAfericao
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TipoDadoId { get; set; }
+        public int FrequenciaAfericaoId { get; set; }
 
         [Required]
-        [MaxLength(30)]
+        [MaxLength(45)]
         public string Nome { get; set; }
 
-        List<Medida> Medidas { get; set; }
+        public List<Metrica> Metricas { get; set; }
+
     }
 }

@@ -7,7 +7,7 @@ namespace Sgiq.Dados.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int CondicaoId { get; set; }
 
         [Required]
         [MaxLength(30)]
