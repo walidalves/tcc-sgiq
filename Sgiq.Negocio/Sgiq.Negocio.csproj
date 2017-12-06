@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sgiq.Servico\Sgiq.Servico.csproj" />
+    <ProjectReference Include="..\Sgiq.Dados\Sgiq.Dados.csproj" />
   </ItemGroup>
 
 </Project>
