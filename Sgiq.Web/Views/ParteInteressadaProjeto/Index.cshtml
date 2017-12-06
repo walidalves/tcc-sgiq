@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "Vincular Partes Interessadas";
+}
+<div class="col-lg-12">
+    <form role="form">
+        <div class="row">
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <div class="card-header">Dados do Requisito</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label>Projeto</label>
+                                <select class="form-control" data-placeholder="Selecione o Projeto">
+                                    <option>Selecione Projeto</option>
+                                    <option value="1" selected>Projeto 01</option>
+                                    <option value="2">Projeto 02</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label>Parte Interessada</label>
+                                <select class="form-control" data-placeholder="Selecione o Tipo de Requisito">
+                                    <option>Selecione Parte Interessada</option>
+                                    <option value="1">Felipe Cristo de Oliveira</option>
+                                    <option value="2">Walid Arnous Alves</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label>Papel</label>
+                                <select class="form-control" data-placeholder="Selecione o Tipo de Requisito">
+                                    <option>Selecione o Papel</option>
+                                    <option value="1">Cliente</option>
+                                    <option value="2">Desenvolvedor</option>
+                                    <option value="3">Gerente de Projetos</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-2 mt-4">
+                                <button class="btn btn-lg btn-success" type="button"><i class="fa fa-plus-circle"></i></button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-responsive-lg table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Parte Interessada</th>
+                                            <th>Papel</th>
+                                            <th>Excluir</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Felipe Cristo de Oliveira</td>
+                                            <td>Desenvolvedor</td>
+                                            <td><button class="btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Walid Arnous Alves</td>
+                                            <td>Gerente de Projetos</td>
+                                            <td><button class="btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-12 mt-3">
+                <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i><span> Salvar</span></button>
+                <button type="button" class="btn btn-danger"><i class="fa fa-ban"></i><span> Cancelar</span></button>
+            </div>
+        </div>
+
+    </form>
+</div>
+

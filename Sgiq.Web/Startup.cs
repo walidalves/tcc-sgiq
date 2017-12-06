@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sgiq.Negocio;
 
 namespace Sgiq
 {
@@ -22,6 +23,7 @@ namespace Sgiq
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddRouting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +47,28 @@ namespace Sgiq
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            /* Inclusão de Dados das tabelas auxiliares */
+            CriarTabelasAuxiliares();
+        }
+
+        private void CriarTabelasAuxiliares()
+        {
+            var condicaoBo = new CondicaoBo();
+            condicaoBo.Criar();
+
+            var papelBO = new PapelBo();
+            papelBO.Criar();
+
+            var situacaoProjetoBo = new SituacaoProjetoBo();
+            situacaoProjetoBo.Criar();
+
+            var tipoDadoBo = new TipoDadoBo();
+            tipoDadoBo.Criar();
+
+            var tipoRequisitoBo = new TipoRequisitoBo();
+            tipoRequisitoBo.Criar();
         }
     }
 }
