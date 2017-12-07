@@ -1,76 +1,85 @@
-﻿@{
-    ViewData["Title"] = "Incluir Projeto";
+﻿@model IEnumerable<Sgiq.Dados.Models.Projeto>
+
+@{
+    ViewData["Title"] = "Projetos";
 }
 
+
+
 <div class="col-lg-12">
-    <div class="card">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <a asp-action="Create" class="btn btn-primary"><i class="fa fa-plus"></i> <span>Novo</span></a>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="card mt-3">
         <div class="card-header">
-            Dados do Projeto
+            Projetos
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form role="form">
-                        <div class="row">
-                            <div class="form-group col-lg-12">
-                                <label>Nome</label>
-                                <input class="form-control" placeholder="informe nome">
-                                <p class="help-block">Máximo 30 caracteres</p>
-                            </div>
-                            <div class="form-group col-lg-12">
-                                <label>Descrição</label>
-                                <textarea class="form-control" placeholder="Informe Descrição"></textarea>
-                                <p class="help-block">Máximo 250 caracteres</p>
-                            </div>                            
-                            <div class="form-group col-lg-12">
-                                <label>Gerente de Projetos</label>
-                                <select class="form-control select2" data-placeholder="Selecione Gerente de Projeto">
-                                    <option></option>
-                                    <option value="1">Felipe Cristo de Oliveira</option>
-                                    <option value="2">Walid Arnous Alves</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-12">
-                                <label>Cliente</label>
-                                <select class="form-control select2" data-placeholder="Selecione Cliente">
-                                    <option></option>
-                                    <option value="3">Faesa</option>
-                                    <option value="4">Nexa</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label>Data de início prevista</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control" placeholder="DD/MM/AAAA">
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label>Data de fim prevista</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control" placeholder="DD/MM/AAAA">
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label>Custo Estimado</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">R$</span>
-                                    <input type="text" class="form-control" placeholder="DD/MM/AAAA">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-                        <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i><span> Salvar</span></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-ban"></i><span> Cancelar</span></button>
-                    </form>
-                </div>                
-            </div>
-            <!-- /.row (nested) -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Nome
+                        </th>
+                        <th>
+                            Descrição
+                        </th>
+                        <th>
+                            Data de Início Prevista
+                        </th>
+                        <th>
+                            Data de Término Prevista
+                        </th>
+                        <th>
+                            Custo Estimado
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+            {
+
+                        @foreach (var item in Model)
+                {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descricao)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtInicioPrevista)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtTerminoPrevista)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustoEstimado)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.ProjetoId">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.ProjetoId">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.ProjetoId">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">Nenhum Registro Encontrado</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-        <!-- /.panel-body -->
     </div>
-    <!-- /.panel -->
 </div>
-<!-- /.col-lg-12 -->

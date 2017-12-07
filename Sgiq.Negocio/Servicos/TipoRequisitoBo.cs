@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sgiq.Negocio
+namespace Sgiq.Negocio.Servicos
 {
     public class TipoRequisitoBo: NegocioBase
     {

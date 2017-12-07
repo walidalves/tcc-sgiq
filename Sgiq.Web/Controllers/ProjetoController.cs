@@ -1,23 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Sgiq.Dados;
+using System.Linq;
 
 namespace Sgiq.Web.Controllers
 {
     public class ProjetoController : Controller
     {
+        public ProjetoController(SGIQContext context)
+        {
+            Context = context;
+        }
+
+        private SGIQContext Context { get; set; }
+
         // GET: Projeto
         public ActionResult Index()
-        {
-            return View();
+        {            
+            return View(Context.Projeto.AsEnumerable());
         }
 
         // GET: Projeto/Details/5
         public ActionResult Details(int id)
-        {
+        {            
             return View();
         }
 
