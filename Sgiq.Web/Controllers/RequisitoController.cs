@@ -4,15 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Dados;
 
 namespace Sgiq.Web.Controllers
 {
     public class RequisitoController : Controller
     {
-        // GET: Requisito
+        public RequisitoController(SGIQContext context)
+        {
+            Context = context;
+        }
+
+        private SGIQContext Context { get; set; }
+
+        // GET: Projeto
         public ActionResult Index()
         {
-            return View();
+            return View(Context.Requisito.AsEnumerable());
         }
 
         // GET: Requisito/Details/5
