@@ -9,7 +9,7 @@ namespace Sgiq.Dados
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseMySql(@"server=localhost;port=3306;database=sgiq;uid=root;pwd=p3sq!!!sa");
+            optionsBuilder.UseMySql(@"server=localhost;port=3306;database=sgiq;uid=root;pwd=fpmw6dcf");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
