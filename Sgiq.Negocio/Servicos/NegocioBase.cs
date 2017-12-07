@@ -1,7 +1,7 @@
 ﻿using Sgiq.Dados;
 using System;
 
-namespace Sgiq.Negocio
+namespace Sgiq.Negocio.Servicos
 {
     public abstract class NegocioBase
     {

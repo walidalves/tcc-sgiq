@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sgiq.Negocio;
+using Sgiq.Negocio.Servicos;
+using Sgiq.Dados;
 
 namespace Sgiq
 {
@@ -22,6 +24,7 @@ namespace Sgiq
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<SGIQContext>();
             services.AddMvc();
             services.AddRouting();
         }
