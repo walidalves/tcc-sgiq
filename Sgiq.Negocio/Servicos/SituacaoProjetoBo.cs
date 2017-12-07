@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Sgiq.Dados;
-using System.Linq;
+﻿using System.Linq;
 using Sgiq.Dados.Models;
 
-namespace Sgiq.Negocio
+namespace Sgiq.Negocio.Servicos
 {
 
     public class SituacaoProjetoBo : NegocioBase

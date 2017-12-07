@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sgiq.Dados\Sgiq.Dados.csproj" />
     <ProjectReference Include="..\Sgiq.Negocio\Sgiq.Negocio.csproj" />
   </ItemGroup>
 

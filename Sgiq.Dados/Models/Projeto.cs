@@ -43,6 +43,8 @@ namespace Sgiq.Dados.Models
 
         public virtual AvaliacaoProjeto AvaliacaoProjeto { get; set; }
 
+        public virtual SituacaoProjeto SituacaoProjeto{ get; set; }
+
 
     }
 }
