@@ -4,21 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Dados;
 
 namespace Sgiq.Web.Controllers
 {
-    public class MedicaoController : Controller
+    public class Medicao : Controller
     {
+        public Medicao(SGIQContext context)
+        {
+            Context = context;
+        }
+
+        private SGIQContext Context { get; set; }
+
         // GET: Medicao
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // GET: Medicao/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(Context.Medicao.AsEnumerable());
         }
 
         // GET: Medicao/Create

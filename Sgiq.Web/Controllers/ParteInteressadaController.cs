@@ -22,16 +22,8 @@ namespace Sgiq.Web.Controllers
         // GET: ParteInteressada
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // GET: ParteInteressada/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ParteInteressada/Create
+            return View(Context.ParteInteressada.AsEnumerable());
+        }        // GET: ParteInteressada/Create
         public ActionResult Create()
         {
             return View();

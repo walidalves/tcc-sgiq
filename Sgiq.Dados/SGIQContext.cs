@@ -109,6 +109,8 @@ namespace Sgiq.Dados
         //subsistema GerenciarMetricas
         public virtual DbSet<Medida> Medida { get; set; }
         public virtual DbSet<Metrica> Metrica { get; set; }
+        public virtual DbSet<Indicador> Indicador { get; set; }
+        public virtual DbSet<Medicao> Medicao { get; set; }
 
     }
 }

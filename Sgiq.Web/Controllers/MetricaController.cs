@@ -4,21 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Dados;
 
 namespace Sgiq.Web.Controllers
 {
     public class MetricaController : Controller
     {
-        // GET: Metrica
-        public ActionResult Index()
+        public MetricaController(SGIQContext context)
         {
-            return View();
+            Context = context;
         }
 
-        // GET: Metrica/Details/5
-        public ActionResult Details(int id)
+        private SGIQContext Context { get; set; }
+
+        // GET: Atividade
+        public ActionResult Index()
         {
-            return View();
+            return View(Context.Metrica.AsEnumerable());
         }
 
         // GET: Metrica/Create

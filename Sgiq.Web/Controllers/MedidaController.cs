@@ -4,21 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Dados;
 
 namespace Sgiq.Web.Controllers
 {
     public class MedidaController : Controller
     {
+        public MedidaController(SGIQContext context)
+        {
+            Context = context;
+        }
+
+        private SGIQContext Context { get; set; }
+
         // GET: Medida
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // GET: Medida/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(Context.Medida.AsEnumerable());
         }
 
         // GET: Medida/Create

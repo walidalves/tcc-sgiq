@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Incluir Métrica";
+}
+<div class="col-lg-12">
+    <form role="form">
+        <div class="row">
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <div class="card-header">Dados da Métrica</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label>Nome</label>
+                                <input class="form-control" placeholder="informe nome">
+                                <p class="help-block">Máximo 30 caracteres</p>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>Descrição</label>
+                                <textarea class="form-control" placeholder="Informe Descrição" rows="3"></textarea>
+                                <p class="help-block">Máximo 250 caracteres</p>
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label>Frequência de Aferição</label>
+                                <select class="form-control" data-placeholder="Selecione o Projeto">
+                                    <option>Selecione Freqûencia de Aferição</option>
+                                    <option value="1">Semanal</option>
+                                    <option value="1">Mensal</option>
+                                    <option value="2">Semestral</option>
+                                    <option value="1">Ao Iniciar Projeto</option>
+                                    <option value="1">Ao Finalizar Projeto</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <div class="card-header">Medidas Utilizadas</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-lg-10">
+                                <label>Medida</label>
+                                <select class="form-control" data-placeholder="Selecione a Medida">
+                                    <option>Selecione Medida</option>
+                                    <option value="1">Medida 01</option>
+                                    <option value="2">Medida 02</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-2 mt-4">
+                                <div class="pull-right">
+                                    <button class="btn btn-lg btn-success" type="button"><i class="fa fa-plus-circle"></i></button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-responsive-lg table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Identificador</th>
+                                            <th>Medida</th>
+                                            <th>Excluir</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>A</td>
+                                            <td>Medida 01</td>
+                                            <td><button class="btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>B</td>
+                                            <td>Medida 03</td>
+                                            <td><button class="btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-12 mt-3">
+                <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i><span> Salvar</span></button>
+                <button type="button" class="btn btn-danger"><i class="fa fa-ban"></i><span> Cancelar</span></button>
+            </div>
+        </div>
+
+    </form>
+</div>
