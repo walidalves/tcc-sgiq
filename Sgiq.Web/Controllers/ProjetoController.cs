@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sgiq.Dados;
+using Sgiq.Dados.Models;
+using Sgiq.Web.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sgiq.Web.Controllers
@@ -17,32 +20,49 @@ namespace Sgiq.Web.Controllers
 
         // GET: Projeto
         public ActionResult Index()
-        {            
+        {
             return View(Context.Projeto.AsEnumerable());
         }
 
         // GET: Projeto/Details/5
         public ActionResult Details(int id)
-        {            
+        {
             return View();
         }
 
         // GET: Projeto/Create
         public ActionResult Create()
         {
+            var partesInteressadas = Context.ParteInteressada.AsEnumerable();
+            ViewBag.PartesInteressadas = partesInteressadas;
             return View();
         }
 
         // POST: Projeto/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ProjetoView p)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var projeto = new Projeto
+                    {
+                        Nome = p.Nome,
+                        Descricao = p.Descricao,
+                        DtInicioPrevista = p.DtInicioPrevisto,
+                        DtTerminoPrevista = p.DtTFimPrevisto,
+                        CustoEstimado = p.CustoEstimado
+                    };
+
+                    Context.Projeto.Add(projeto);
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View();
             }
             catch
             {

@@ -45,6 +45,12 @@ namespace Sgiq.Dados.Models
 
         public virtual SituacaoProjeto SituacaoProjeto{ get; set; }
 
+        [NotMapped]
+        [Required]
+        public int IdGerenteProjeto { get; set; }
 
+        [NotMapped]
+        [Required]
+        public int IdCliente { get; set; }
     }
 }

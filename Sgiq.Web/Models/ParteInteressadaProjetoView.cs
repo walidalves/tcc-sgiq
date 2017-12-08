@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sgiq.Web.Models
 {
-    public class ParteInteressadaProjeto
+    public class ParteInteressadaProjetoView
     {
 
     }

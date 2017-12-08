@@ -4,11 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Web.Models;
+using Sgiq.Dados.Models;
+using Sgiq.Dados;
 
 namespace Sgiq.Web.Controllers
 {
     public class ParteInteressadaController : Controller
     {
+        public ParteInteressadaController(SGIQContext context)
+        {
+            Context = context;
+        }
+
+        private SGIQContext Context { get; set; }
+
         // GET: ParteInteressada
         public ActionResult Index()
         {
@@ -30,13 +40,25 @@ namespace Sgiq.Web.Controllers
         // POST: ParteInteressada/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ParteInteressadaView pi)
         {
+
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    ParteInteressadaView parteInteressada = new ParteInteressadaView();
+                    parteInteressada.Nome = pi.Nome;
+                    parteInteressada.Email = pi.Email;
+                    parteInteressada.Telefone = pi.Telefone;
+                    var parteInteressadaBd = new ParteInteressada { Nome = parteInteressada.Nome, Email = parteInteressada.Email, Telefone = parteInteressada.Telefone };
+                    Context.ParteInteressada.Add(parteInteressadaBd);
 
-                return RedirectToAction(nameof(Index));
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View();
             }
             catch
             {
