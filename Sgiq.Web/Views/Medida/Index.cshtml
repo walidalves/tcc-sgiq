@@ -1,53 +1,79 @@
-﻿
+﻿@model IEnumerable<Sgiq.Dados.Models.Medida>
+
 @{
-    ViewData["Title"] = "Incluir Medida";
+    ViewData["Title"] = "Medida";
 }
+
+
+
 <div class="col-lg-12">
-    <div class="card">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <a asp-action="Create" class="btn btn-primary"><i class="fa fa-plus"></i> <span>Novo</span></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mt-3">
         <div class="card-header">
-            Dados da medida
+            Requisitos
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form role="form">
-                        <div class="row">
-                            <div class="form-group col-lg-12">
-                                <label>Nome</label>
-                                <input class="form-control" placeholder="Informe o nome da medida">
-                                <p class="help-block">Máximo 30 caracteres</p>
-                            </div>
-                            <div class="form-group col-lg-12">
-                                <label>Tipo de dado</label>
-                                <select class="form-control select2" data-placeholder="Selecione Gerente de Projeto">
-                                    <option></option>
-                                    <option value="1">Inteiro</option>
-                                    <option value="2">Flutuante</option>
-                                    <option value="3">String</option>
-                                    <option value="4">Character</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-4">
-                                <label>Valor Mínimo</label>
-                                <input type="text" class="form-control" placeholder="Informe valor mínimo">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label>Valor Máximo</label>
-                                <input type="text" class="form-control" placeholder="Informe valor máximo">
-                            </div>
-                        </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Nome
+                        </th>
+                        <th>
+                            Tipo de dado
+                        </th>
+                        <th>
+                            Valor Mínimo
+                        </th>
+                        <th>
+                            Valor Máximo
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+            {
 
-                        <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i><span> Salvar</span></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-ban"></i><span> Cancelar</span></button>
-                    </form>
-                </div>
-            </div>
-            <!-- /.row (nested) -->
+                        @foreach (var item in Model)
+                {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoDado.Nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VlrMinimo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VlrMaximo)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.MedidaId">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.MedidaId">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.MedidaId">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">Nenhum Registro Encontrado</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-        <!-- /.panel-body -->
     </div>
-    <!-- /.panel -->
 </div>
-<!-- /.col-lg-12 -->
