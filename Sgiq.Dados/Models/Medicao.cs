@@ -19,7 +19,11 @@ namespace Sgiq.Dados.Models
         [Required]
         public int MedidaId { get; set; }
 
+        public Medida Medida { get; set; }
+
         [Required]
         public int ProjetoId { get; set; }
+
+        public Projeto Projeto { get; set; }
     }
 }

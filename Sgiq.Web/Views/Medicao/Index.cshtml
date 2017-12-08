@@ -1,69 +1,77 @@
-﻿
+﻿@model IEnumerable<Sgiq.Dados.Models.Medicao>
+
 @{
     ViewData["Title"] = "Medição";
 }
+
+
+
 <div class="col-lg-12">
-    <div class="card">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <a asp-action="Create" class="btn btn-primary"><i class="fa fa-plus"></i> <span>Novo</span></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mt-3">
         <div class="card-header">
-            Dados da Medição
+            Projetos
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form role="form">
-                        <div class="row">
-                            <div class="form-group col-lg-12">
-                                <label>Projeto</label>
-                                <select class="form-control" data-placeholder="Selecione o Projeto">
-                                    <option>Selecione Projeto</option>
-                                    <option value="1">Felipe Cristo de Oliveira</option>
-                                    <option value="2">Walid Arnous Alves</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-12">
-                                <label>Métrica</label>
-                                <select class="form-control" data-placeholder="Selecione a Métrica">
-                                    <option>Selecione Métrica</option>
-                                    <option value="1">Felipe Cristo de Oliveira</option>
-                                    <option value="2">Walid Arnous Alves</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <table class="table table-responsive-lg table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Nome da Medida</th>
-                                            <th>Tipo de Dado</th>
-                                            <th>Valor</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Medida 2</td>
-                                            <td>Inteiro</td>
-                                            <td><input type="text" class="form-control" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Medida 4</td>
-                                            <td>Flutuante</td>
-                                            <td><input type="text" class="form-control" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Projeto
+                        </th>
+                        <th>
+                            Métrica
+                        </th>
+                        <th>
+                            Nome da Medida
+                        </th>
+                        <th>
+                            Valor
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+            {
 
-                        <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i><span> Salvar</span></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-ban"></i><span> Cancelar</span></button>
-                    </form>
-                </div>
-            </div>
-            <!-- /.row (nested) -->
+                        @foreach (var item in Model)
+                {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Projeto.Nome)
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.Medida.me)*@
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Medida.Nome)</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Valor)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.ProjetoId">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.ProjetoId">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.ProjetoId">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">Nenhum Registro Encontrado</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-        <!-- /.panel-body -->
     </div>
-    <!-- /.panel -->
 </div>
-

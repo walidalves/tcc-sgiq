@@ -4,24 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Dados;
 
 namespace Sgiq.Web.Controllers
 {
     public class AtividadeController : Controller
     {
+        public AtividadeController(SGIQContext context)
+        {
+            Context = context;
+        }
+
+        private SGIQContext Context { get; set; }
+
         // GET: Atividade
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // GET: Atividade/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Atividade/Create
+            return View(Context.Atividade.AsEnumerable());
+        }        // GET: Atividade/Create
         public ActionResult Create()
         {
             return View();
