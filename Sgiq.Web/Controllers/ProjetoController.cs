@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Sgiq.Dados;
 using Sgiq.Dados.Models;
 using Sgiq.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +22,8 @@ namespace Sgiq.Web.Controllers
         // GET: Projeto
         public ActionResult Index()
         {
-            return View(Context.Projeto.AsEnumerable());
+            var projetos = Context.Projeto.Include(p => p.SituacaoProjeto).AsEnumerable();
+            return View(projetos);
         }
 
         // GET: Projeto/Details/5
@@ -49,23 +51,43 @@ namespace Sgiq.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    
                     var projeto = new Projeto
                     {
                         Nome = p.Nome,
                         Descricao = p.Descricao,
                         DtInicioPrevista = p.DtInicioPrevisto,
                         DtTerminoPrevista = p.DtTFimPrevisto,
-                        CustoEstimado = p.CustoEstimado
+                        CustoEstimado = p.CustoEstimado                        
                     };
 
-                    Context.Projeto.Add(projeto);
+                    projeto.SituacaoProjeto = Context.SituacaoProjeto.Where(sp => sp.Nome.ToLower() == "iniciado").FirstOrDefault();
+
+                    projeto = Context.Projeto.Add(projeto).Entity;
+
+                    //Adicionando cliente
+                    ParteInteressadaProjeto cliente = new ParteInteressadaProjeto { Projeto = projeto };
+                    cliente.ParteInteressada = Context.ParteInteressada.Where(pi => pi.ParteInteressadaId == p.ClienteId).FirstOrDefault();
+                    cliente.Papel = Context.Papel.Where(pap => pap.Nome.ToLower() == "cliente").FirstOrDefault();
+
+                    //Adicionar Gerente de Projetos
+                    ParteInteressadaProjeto gerenteProjetos = new ParteInteressadaProjeto { Projeto = projeto };
+                    gerenteProjetos.ParteInteressada = Context.ParteInteressada.Where(pi => pi.ParteInteressadaId == p.GerenteProjetoId).FirstOrDefault();
+                    gerenteProjetos.Papel = Context.Papel.Where(pap => pap.Nome.ToLower() == "gerente de projetos").FirstOrDefault();
+
+                    Context.ParteInteressadaProjeto.AddRange(cliente, gerenteProjetos);
+
                     Context.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
+                var partesInteressadas = Context.ParteInteressada.AsEnumerable();
+                ViewBag.PartesInteressadas = partesInteressadas;
                 return View();
             }
-            catch
+            catch(Exception e)
             {
+                var partesInteressadas = Context.ParteInteressada.AsEnumerable();
+                ViewBag.PartesInteressadas = partesInteressadas;
                 return View();
             }
         }

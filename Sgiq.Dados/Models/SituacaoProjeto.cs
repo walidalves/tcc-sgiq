@@ -14,6 +14,7 @@ namespace Sgiq.Dados.Models
         [MaxLength(30)]
         public string Nome { get; set; }
 
+        [InverseProperty("SituacaoProjeto")]
         public List<Projeto> Projetos { get; set; }
     }
 }
