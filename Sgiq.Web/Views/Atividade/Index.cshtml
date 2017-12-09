@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Sgiq.Dados.Models.Atividade>
 
 @{
-    ViewData["Title"] = "Atividade";
+    ViewData["Title"] = "Atividades";
 }
 
 
@@ -25,10 +25,10 @@
                 <thead>
                     <tr>
                         <th>
-                            Nome
+                            Projeto
                         </th>
                         <th>
-                            Descrição da Atividade
+                            Atividade
                         </th>
                         <th>
                             Data de início prevista
@@ -41,16 +41,16 @@
                 </thead>
                 <tbody>
                     @if (Model.Any())
-            {
+                    {
 
                         @foreach (var item in Model)
-                {
+                        {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Nome)
+                                    @Html.DisplayFor(modelItem => item.Projeto.Nome)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Descricao)
+                                    @Html.DisplayFor(modelItem => item.Nome)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.DtInicioPrevista)
@@ -59,9 +59,9 @@
                                     @Html.DisplayFor(modelItem => item.DtTerminoPrevista)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.ProjetoId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.ProjetoId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.ProjetoId">Delete</a>
+                                    <a asp-action="Edit" asp-route-id="@item.AtividadeId" class="btn btn-xs btn-success"><i class=" fa fa-pencil"></i></a> |
+                                    <a asp-action="Details" asp-route-id="@item.AtividadeId" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a> |
+                                    <a asp-action="Delete" asp-route-id="@item.AtividadeId" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         }

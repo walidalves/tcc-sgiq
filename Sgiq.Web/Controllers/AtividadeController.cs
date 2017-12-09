@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sgiq.Dados;
+using Microsoft.EntityFrameworkCore;
+using Sgiq.Web.Models;
+using Sgiq.Dados.Models;
 
 namespace Sgiq.Web.Controllers
 {
@@ -20,26 +23,50 @@ namespace Sgiq.Web.Controllers
         // GET: Atividade
         public ActionResult Index()
         {
-            return View(Context.Atividade.AsEnumerable());
+            var atividades = Context.Atividade.Include(a => a.Projeto).AsEnumerable();
+            return View(atividades);
         }        // GET: Atividade/Create
         public ActionResult Create()
         {
+            var projetos = Context.Projeto.AsEnumerable();
+            ViewBag.Projetos = projetos;
             return View();
         }
 
         // POST: Atividade/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(AtividadeView model)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+
+                    var atividade = new Atividade
+                    {
+                        Nome = model.Nome,
+                        Descricao = model.Descricao,
+                        DtInicioPrevista = model.DtInicio,
+                        DtTerminoPrevista = model.DtFim
+                    };
+
+                    atividade.Projeto = Context.Projeto.Where(p => p.ProjetoId == model.ProjetoId).FirstOrDefault();
+                    Context.Atividade.Add(atividade);
+
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                var projetos = Context.Projeto.AsEnumerable();
+                ViewBag.Projetos = projetos;
+                return View();
             }
-            catch
+            catch (Exception e)
             {
+                var projetos = Context.Projeto.AsEnumerable();
+                ViewBag.Projetos = projetos;
                 return View();
             }
         }

@@ -26,7 +26,7 @@ namespace Sgiq.Dados.Models
         [Column(TypeName = "datetime")]
         public DateTime DtTerminoPrevista { get; set; }
 
-        public int ProjetoId { get; set; }
+        public Projeto Projeto { get; set; }
 
     }
 }
