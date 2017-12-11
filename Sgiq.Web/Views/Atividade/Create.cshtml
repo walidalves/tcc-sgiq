@@ -15,14 +15,8 @@
                     <form asp-action="Create" role="form">
                         <div class="row">
                             <div class="form-group col-lg-12">
-                                <label asp-for="ProjetoId">Projeto</label>
-                                <select asp-for="ProjetoId" class="form-control select2" data-placeholder="Selecione Projeto">
-                                    @foreach (Sgiq.Dados.Models.Projeto projeto in ViewBag.Projetos)
-                                    {
-                                        <option value="@projeto.ProjetoId">@projeto.Nome</option>
-                                    }
-                                </select>
-                                <span asp-validation-for="ProjetoId" class="text-danger"></span>
+                                <label>Projeto</label>
+                                <p>@ViewBag.Projeto.Nome</p>
                             </div>
                             <div class="form-group col-lg-12">
                                 <label asp-for="Nome">Nome da Atividade</label>

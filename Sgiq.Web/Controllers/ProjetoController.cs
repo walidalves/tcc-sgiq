@@ -29,7 +29,22 @@ namespace Sgiq.Web.Controllers
         // GET: Projeto/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var projeto = Context.Projeto
+                .FirstOrDefault(p => p.ProjetoId == id);
+            if(projeto == null)
+            {
+                return NotFound();
+            }
+            var partesInteressadas = Context.ParteInteressadaProjeto
+                .Include(pip => pip.ParteInteressada)
+                .Include(pip => pip.Papel)
+                .Where(pip => pip.Projeto.ProjetoId == id).ToList();
+            var requisitos = Context.Requisito
+                .Include(r => r.TipoRequisito)
+                .Where(r => r.ProjetoId == id).ToList();
+            var atividades = Context.Atividade
+                .Where(a => a.Projeto.ProjetoId == id).ToList();
+            return View(projeto);
         }
 
         // GET: Projeto/Create

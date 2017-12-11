@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sgiq.Dados;
+using Microsoft.EntityFrameworkCore;
+using Sgiq.Web.Models;
+using Sgiq.Dados.Models;
 
 namespace Sgiq.Web.Controllers
 {
+    [Route("Projeto/{projetoId}/[controller]")]
     public class RequisitoController : Controller
     {
         public RequisitoController(SGIQContext context)
@@ -17,42 +21,54 @@ namespace Sgiq.Web.Controllers
 
         private SGIQContext Context { get; set; }
 
-        // GET: Projeto
-        public ActionResult Index()
-        {
-            return View(Context.Requisito.AsEnumerable());
-        }
 
-        // GET: Requisito/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        [Route("Create")]
+        public ActionResult Create(int projetoId)
         {
+            var projeto = Context.Projeto.Include(p => p.Requisitos).FirstOrDefault(p => p.ProjetoId == projetoId);
+            var tiposRequisitos = Context.TipoRequisito.AsEnumerable();
+            if (projeto == null)
+            {
+                return BadRequest();
+            }
+            ViewBag.Projeto = projeto;
+            ViewBag.TiposRequisito = tiposRequisitos;
             return View();
         }
 
-        // GET: Requisito/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
         // POST: Requisito/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [Route("Create")]
+        public ActionResult Create(RequisitoView model)
         {
             try
             {
-                // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var requisito = new Requisito { Descricao = model.Descricao, DtInclusao = DateTime.Now };
+                    requisito.TipoRequisito = Context.TipoRequisito.FirstOrDefault(tr => tr.TipoRequisitoId == model.TipoRequisitoId);
+                    requisito.Projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                    Context.Requisito.Add(requisito);
+
+                    Context.SaveChanges();
+                    return RedirectToAction("Details", "Projeto", new { Id = model.ProjetoId });
+                }
+                var tiposRequisitos = Context.TipoRequisito.AsEnumerable();
+                return View();
             }
             catch
             {
+                var tiposRequisitos = Context.TipoRequisito.AsEnumerable();
                 return View();
             }
         }
 
-        // GET: Requisito/Edit/5
+        [HttpGet]
+        [Route("Edit/{id}")]
         public ActionResult Edit(int id)
         {
             return View();
@@ -61,41 +77,25 @@ namespace Sgiq.Web.Controllers
         // POST: Requisito/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [Route("Edit/{id}")]
+        public ActionResult Edit(int id, RequisitoEditView model)
         {
             try
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","Projeto", new { ProjetoId = model.ProjetoId});
             }
             catch
             {
                 return View();
             }
         }
-
-        // GET: Requisito/Delete/5
+        [Route("Delete/{id}")]
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
             return View();
-        }
-
-        // POST: Requisito/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

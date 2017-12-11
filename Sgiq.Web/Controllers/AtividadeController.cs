@@ -11,6 +11,7 @@ using Sgiq.Dados.Models;
 
 namespace Sgiq.Web.Controllers
 {
+    [Route("Projeto/{projetoId}/[controller]")]
     public class AtividadeController : Controller
     {
         public AtividadeController(SGIQContext context)
@@ -20,22 +21,19 @@ namespace Sgiq.Web.Controllers
 
         private SGIQContext Context { get; set; }
 
-        // GET: Atividade
-        public ActionResult Index()
+
+        [HttpGet]
+        [Route("Create")]
+        public ActionResult Create(int projetoId)
         {
-            var atividades = Context.Atividade.Include(a => a.Projeto).AsEnumerable();
-            return View(atividades);
-        }        // GET: Atividade/Create
-        public ActionResult Create()
-        {
-            var projetos = Context.Projeto.AsEnumerable();
-            ViewBag.Projetos = projetos;
+            var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == projetoId);
+            ViewBag.Projeto = projeto;
             return View();
         }
 
-        // POST: Atividade/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Create")]
         public ActionResult Create(AtividadeView model)
         {
             try
@@ -57,36 +55,35 @@ namespace Sgiq.Web.Controllers
                     Context.Atividade.Add(atividade);
 
                     Context.SaveChanges();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "Projeto", new { Id = model.ProjetoId });
                 }
-                var projetos = Context.Projeto.AsEnumerable();
-                ViewBag.Projetos = projetos;
+                var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                ViewBag.Projeto = projeto;
                 return View();
             }
             catch (Exception e)
             {
-                var projetos = Context.Projeto.AsEnumerable();
-                ViewBag.Projetos = projetos;
+                var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                ViewBag.Projeto = projeto;
                 return View();
             }
         }
 
-        // GET: Atividade/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Atividade/Edit/5
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, AtividadeEditView model)
         {
             try
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Projeto", new { ProjetoId = model.ProjetoId });
             }
             catch
             {
@@ -94,27 +91,11 @@ namespace Sgiq.Web.Controllers
             }
         }
 
-        // GET: Atividade/Delete/5
+        [Route("Delete")]
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
             return View();
-        }
-
-        // POST: Atividade/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
