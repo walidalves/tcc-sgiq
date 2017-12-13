@@ -4,42 +4,77 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Web.Models;
+using Sgiq.Dados;
+using Sgiq.Dados.Models;
 
 namespace Sgiq.Web.Controllers
 {
+    [Route("Projeto/{projetoId}/[controller]")]
     public class ParteInteressadaProjetoController : Controller
     {
-        // GET: ParteInteressadaProjeto
-        public ActionResult Index()
+        public ParteInteressadaProjetoController(SGIQContext context)
         {
-            return View();
+            Context = context;
         }
 
-        // GET: ParteInteressadaProjeto/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        private SGIQContext Context { get; set; }
 
-        // GET: ParteInteressadaProjeto/Create
-        public ActionResult Create()
+        [HttpGet]
+        [Route("Create")]
+        public ActionResult Create(int projetoId)
         {
+            var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == projetoId);
+            var parteInteressadas = Context.ParteInteressada.AsEnumerable();
+            var papeis = Context.Papel.AsEnumerable();
+
+            ViewBag.Projeto = projeto;
+            ViewBag.Papeis = papeis;
+            ViewBag.PartesInteressadas = parteInteressadas;
             return View();
         }
 
         // POST: ParteInteressadaProjeto/Create
         [HttpPost]
+        [Route("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ParteInteressadaProjetoView model)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    var parteInteressadaProjeto = new ParteInteressadaProjeto
+                    {
+                        Projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId),
+                        ParteInteressada = Context.ParteInteressada.FirstOrDefault(pi => pi.ParteInteressadaId == model.ParteInteressadaId),
+                        Papel = Context.Papel.FirstOrDefault(p => p.PapelId == model.PapelId)
+                    };
 
-                return RedirectToAction(nameof(Index));
+                    Context.ParteInteressadaProjeto.Add(parteInteressadaProjeto);
+
+                    Context.SaveChanges();
+                    return RedirectToAction("Details", "Projeto", new { Id = model.ProjetoId });
+                }
+
+                var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                var parteInteressadas = Context.ParteInteressada.AsEnumerable();
+                var papeis = Context.Papel.AsEnumerable();
+
+                ViewBag.Projeto = projeto;
+                ViewBag.Papeis = papeis;
+                ViewBag.PartesInteressadas = parteInteressadas;
+                return View();
             }
             catch
             {
+                var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                var parteInteressadas = Context.ParteInteressada.AsEnumerable();
+                var papeis = Context.Papel.AsEnumerable();
+
+                ViewBag.Projeto = projeto;
+                ViewBag.Papeis = papeis;
+                ViewBag.PartesInteressadas = parteInteressadas;
                 return View();
             }
         }
@@ -50,22 +85,6 @@ namespace Sgiq.Web.Controllers
             return View();
         }
 
-        // POST: ParteInteressadaProjeto/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: ParteInteressadaProjeto/Delete/5
         public ActionResult Delete(int id)
@@ -73,21 +92,5 @@ namespace Sgiq.Web.Controllers
             return View();
         }
 
-        // POST: ParteInteressadaProjeto/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

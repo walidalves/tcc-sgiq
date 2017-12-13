@@ -16,10 +16,15 @@ namespace Sgiq.Dados.Models
 
         [Required]
         [MaxLength(250)]
+        public string Descricao { get; set; }
+
+        [Required]
+        [MaxLength(250)]
         public string Formula { get; set; }
 
         [Required]
         public int FrequenciaAfericaoId { get; set; }
+        public FrequenciaAfericao FrequenciaAfericao { get; set; }
 
         public virtual List<MedidaMetrica> MedidasMetrica { get; set; }
     }

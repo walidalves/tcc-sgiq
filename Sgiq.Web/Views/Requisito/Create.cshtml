@@ -1,0 +1,47 @@
+﻿@model Sgiq.Web.Models.RequisitoView;
+@{
+    ViewData["Title"] = "Incluir Requisito";
+}
+<div class="col-lg-12">
+    <form asp-action="Create" role="form">
+        <div class="row">
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <div class="card-header">Dados do Requisito</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-lg-2">
+                                <label><b>Projeto:</b></label>
+                                <p>@ViewBag.Projeto.Nome</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-8">
+                                <label asp-for="Descricao">Descrição do Requisito</label>
+                                <input asp-for="Descricao" class="form-control" placeholder="Informe Descrição do Requisito">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label>Tipo de Requisito</label>
+                                <select asp-for="TipoRequisitoId" class="form-control" data-placeholder="Selecione o Tipo de Requisito">
+                                    @foreach (Sgiq.Dados.Models.TipoRequisito tipoRequisito in ViewBag.TiposRequisito)
+                                    {
+                                        <option value="@tipoRequisito.TipoRequisitoId">@tipoRequisito.Nome</option>
+                                    }
+                                </select>
+                            </div>
+                             
+                        </div>
+                       <div class="row">
+                           <div class="col-lg-12">
+                               <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i><span> Salvar</span></button>
+                               <button type="button" class="btn btn-danger"><i class="fa fa-ban"></i><span> Cancelar</span></button>
+                           </div>
+                       </div>
+                                                   
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

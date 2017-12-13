@@ -23,5 +23,10 @@ namespace Sgiq.Dados.Models
         public int TipoRequisitoId { get; set; }
 
         public virtual AvaliacaoRequisito AvaliacaoRequisito { get; set; }
+
+        public Projeto Projeto { get; set; }
+
+        public TipoRequisito TipoRequisito { get; set; }
+
     }
 }

@@ -4,62 +4,86 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Dados;
+using Microsoft.EntityFrameworkCore;
+using Sgiq.Web.Models;
+using Sgiq.Dados.Models;
 
 namespace Sgiq.Web.Controllers
 {
+    [Route("Projeto/{projetoId}/[controller]")]
     public class AtividadeController : Controller
     {
-        // GET: Atividade
-        public ActionResult Index()
+        public AtividadeController(SGIQContext context)
         {
+            Context = context;
+        }
+
+        private SGIQContext Context { get; set; }
+
+
+        [HttpGet]
+        [Route("Create")]
+        public ActionResult Create(int projetoId)
+        {
+            var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == projetoId);
+            ViewBag.Projeto = projeto;
             return View();
         }
 
-        // GET: Atividade/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Atividade/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Atividade/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [Route("Create")]
+        public ActionResult Create(AtividadeView model)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+
+                    var atividade = new Atividade
+                    {
+                        Nome = model.Nome,
+                        Descricao = model.Descricao,
+                        DtInicioPrevista = model.DtInicio,
+                        DtTerminoPrevista = model.DtFim
+                    };
+
+                    atividade.Projeto = Context.Projeto.Where(p => p.ProjetoId == model.ProjetoId).FirstOrDefault();
+                    Context.Atividade.Add(atividade);
+
+                    Context.SaveChanges();
+                    return RedirectToAction("Details", "Projeto", new { Id = model.ProjetoId });
+                }
+                var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                ViewBag.Projeto = projeto;
+                return View();
             }
-            catch
+            catch (Exception e)
             {
+                var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                ViewBag.Projeto = projeto;
                 return View();
             }
         }
 
-        // GET: Atividade/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Atividade/Edit/5
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, AtividadeEditView model)
         {
             try
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Projeto", new { ProjetoId = model.ProjetoId });
             }
             catch
             {
@@ -67,27 +91,11 @@ namespace Sgiq.Web.Controllers
             }
         }
 
-        // GET: Atividade/Delete/5
+        [Route("Delete")]
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
             return View();
-        }
-
-        // POST: Atividade/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

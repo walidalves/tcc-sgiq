@@ -27,9 +27,10 @@ namespace Sgiq.Dados.Models
         [Column(TypeName = "datetime")]
         public DateTime DtTerminoPrevista { get; set; }
 
+        [Required]
         public decimal CustoEstimado { get; set; }
 
-        public int SituacaoProjetoId { get; set; }
+        //public int SituacaoProjetoId { get; set; }
 
         public virtual List<ParteInteressadaProjeto> PartesInteressadasProjeto { get; set; }
 
@@ -43,8 +44,7 @@ namespace Sgiq.Dados.Models
 
         public virtual AvaliacaoProjeto AvaliacaoProjeto { get; set; }
 
-        public virtual SituacaoProjeto SituacaoProjeto{ get; set; }
-
-
+        [ForeignKey("SituacaoProjetoId")]
+        public SituacaoProjeto SituacaoProjeto{ get; set; }
     }
 }

@@ -1,54 +1,89 @@
-﻿@model Sgiq.Dados.Models.Projeto
+﻿@model Sgiq.Web.Models.ProjetoView
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Incluir Projeto";
 }
 
-<h2>Create</h2>
+<div class="col-lg-12">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="card">
+        <div class="card-header">
+            Dados do Projeto
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form asp-action="Create" role="form">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label asp-for="Nome">Nome</label>
+                                <input asp-for="Nome" class="form-control" placeholder="informe nome">
+                                <p class="help-block">Máximo 30 caracteres</p>
+                                <span asp-validation-for="Nome" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label asp-for="Descricao">Descrição</label>
+                                <textarea asp-for="Descricao" class="form-control" placeholder="Informe Descrição"></textarea>
+                                <p class="help-block">Máximo 250 caracteres</p>
+                                <span asp-validation-for="Descricao" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label asp-for="GerenteProjetoId">Gerente de Projetos</label>
+                                <select asp-for="GerenteProjetoId" class="form-control select2" data-placeholder="Selecione Gerente de Projeto">
+                                    @foreach (Sgiq.Dados.Models.ParteInteressada gerenteProjeto in ViewBag.PartesInteressadas)
+                                    {
+                                        <option value="@gerenteProjeto.ParteInteressadaId">@gerenteProjeto.Nome</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="GerenteProjetoId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>Cliente</label>
+                                <select asp-for="ClienteId" class="form-control select2" data-placeholder="Selecione Cliente">
+                                    @foreach (Sgiq.Dados.Models.ParteInteressada cliente in ViewBag.PartesInteressadas)
+                                    {
+                                        <option value="@cliente.ParteInteressadaId">@cliente.Nome</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="ClienteId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label asp-for="DtInicioPrevisto">Data de início prevista</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input asp-for="DtInicioPrevisto" type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label asp-for="DtTFimPrevisto">Data de fim prevista</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input asp-for="DtTFimPrevisto" type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label asp-for="CustoEstimado">Custo Estimado</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">R$</span>
+                                    <input asp-for="CustoEstimado" type="text" class="form-control" placeholder="Somente Números">
+                                </div>
+                            </div>
+                        </div>
 
-<h4>Projeto</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+
+                        <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i><span> Salvar</span></button>
+                        <button type="button" class="btn btn-danger" id="btnCancelar"><i class="fa fa-ban"></i><span> Cancelar</span></button>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DtInicioPrevista" class="control-label"></label>
-                <input asp-for="DtInicioPrevista" class="form-control" />
-                <span asp-validation-for="DtInicioPrevista" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DtTerminoPrevista" class="control-label"></label>
-                <input asp-for="DtTerminoPrevista" class="form-control" />
-                <span asp-validation-for="DtTerminoPrevista" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustoEstimado" class="control-label"></label>
-                <input asp-for="CustoEstimado" class="form-control" />
-                <span asp-validation-for="CustoEstimado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SituacaoProjetoId" class="control-label"></label>
-                <select asp-for="SituacaoProjetoId" class ="form-control" asp-items="ViewBag.SituacaoProjetoId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+            <!-- /.row (nested) -->
+        </div>
+        <!-- /.panel-body -->
     </div>
+    <!-- /.panel -->
 </div>
+<!-- /.col-lg-12 -->
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section scripts{
+    <script src="~/js/projeto.js" type="text/javascript"></script>
+}

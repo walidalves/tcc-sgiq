@@ -4,26 +4,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sgiq.Dados;
+using Sgiq.Web.Models;
 
 namespace Sgiq.Web.Controllers
 {
     public class MetricaController : Controller
     {
-        // GET: Metrica
-        public ActionResult Index()
+        public MetricaController(SGIQContext context)
         {
-            return View();
+            Context = context;
         }
 
-        // GET: Metrica/Details/5
-        public ActionResult Details(int id)
+        private SGIQContext Context { get; set; }
+
+        // GET: Atividade
+        public ActionResult Index()
         {
-            return View();
+            return View(Context.Metrica.AsEnumerable());
         }
 
         // GET: Metrica/Create
         public ActionResult Create()
         {
+            ViewBag.MedidasMetricas = new List<MedidaMetricaView>();
+            ViewBag.Medidas = Context.Medida.AsEnumerable();
+            ViewBag.FrequenciasAfericao = Context.FrequenciaAfericao.AsEnumerable();
             return View();
         }
 
@@ -88,6 +94,28 @@ namespace Sgiq.Web.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        public ActionResult AddMedida(IFormCollection collection)
+        {
+            var medidas = collection["Medidas"];
+            int medidaId = int.Parse(collection["MedidaId"]);
+            var list = new List<MedidaMetricaView>();
+            var medidaMetricaView = new MedidaMetricaView { MedidaId = medidaId };
+            var medida = Context.Medida.Find(medidaId);
+            medidaMetricaView.Nome = medida.Nome;
+            list.Add(medidaMetricaView);
+
+            foreach (var m in medidas)
+            {
+                medidaId = int.Parse(m);
+                medida = Context.Medida.Find(medidaId);
+                medidaMetricaView = new MedidaMetricaView { MedidaId = medidaId, Nome = medida.Nome };
+                list.Add(medidaMetricaView);
+            }
+            
+            return Json(list);
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sgiq.Web.Models
 {
-    public class Papel
+    public interface EditableModel
     {
-        public Projeto Projeto { get; set; }
-        public ParteInteressada ParteInteressada { get; set; }
+        [Required]
+        int Id { get; set; }
     }
 }
