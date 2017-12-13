@@ -24,5 +24,6 @@ namespace Sgiq.Dados
         public virtual DbSet<Metrica> Metrica { get; set; }
         public virtual DbSet<Indicador> Indicador { get; set; }
         public virtual DbSet<Medicao> Medicao { get; set; }
+        public virtual DbSet<FrequenciaAfericao> FrequenciaAfericao { get; set; }
     }
 }

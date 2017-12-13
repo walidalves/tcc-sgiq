@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,9 +20,9 @@ namespace Sgiq.Dados.Models
 
         public TipoDado TipoDado { get; set; }
 
-        public decimal VlrMinimo { get; set; }
+        public Nullable<decimal> VlrMinimo { get; set; }
 
-        public decimal VlrMaximo { get; set; }
+        public Nullable<decimal> VlrMaximo { get; set; }
 
         public virtual List<MedidaMetrica> MedidasMetrica { get; set; }
 

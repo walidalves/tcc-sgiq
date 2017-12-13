@@ -27,6 +27,7 @@ namespace Sgiq
             services.AddDbContext<SGIQContext>();
             services.AddMvc();
             services.AddRouting();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +73,9 @@ namespace Sgiq
 
             var tipoRequisitoBo = new TipoRequisitoBo();
             tipoRequisitoBo.Criar();
+
+            var frequenciaAfericaoBo = new FrequenciaAfericaoBo();
+            frequenciaAfericaoBo.Criar();
         }
     }
 }

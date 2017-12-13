@@ -60,7 +60,6 @@
                                 </td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.MedidaId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.MedidaId">Details</a> |
                                     <a asp-action="Delete" asp-route-id="@item.MedidaId">Delete</a>
                                 </td>
                             </tr>
@@ -69,7 +68,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="6">Nenhum Registro Encontrado</td>
+                            <td colspan="5">Nenhum Registro Encontrado</td>
                         </tr>
                     }
                 </tbody>
