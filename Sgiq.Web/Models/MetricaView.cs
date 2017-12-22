@@ -12,11 +12,16 @@ namespace Sgiq.Web.Models
         public string Nome { get; set; }
 
         [Required]
+        public string Descricao { get; set; }
+
+        [Required]
         public int FrequenciaAfericaoId { get; set; }
 
         [Required]
         public string Formula { get; set; }
-
-        public List<int> Medidas{ get; set; }
+    }
+    public class MetricaEditView: MetricaView, EditableModel
+    {
+        public int Id { get; set; }
     }
 }

@@ -61,19 +61,46 @@ namespace Sgiq.Web.Controllers
         // GET: ParteInteressada/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var parteInteressada = Context.ParteInteressada.Find(id);
+            if(parteInteressada == null)
+            {
+                return BadRequest();
+            }
+            var piView = new ParteInteressadaEditView
+            {
+                Id = id,
+                Nome = parteInteressada.Nome,
+                Email = parteInteressada.Email,
+                Telefone = parteInteressada.Telefone
+            };
+            return View(piView);
         }
 
         // POST: ParteInteressada/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(ParteInteressadaEditView model)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    var parteInteressada = Context.ParteInteressada.Find(model.Id);
+                    if(parteInteressada == null)
+                    {
+                        return BadRequest();
+                    }
 
-                return RedirectToAction(nameof(Index));
+                    parteInteressada.Nome = model.Nome;
+                    parteInteressada.Email = model.Email;
+                    parteInteressada.Telefone = model.Telefone;           
+                    Context.ParteInteressada.Update(parteInteressada);
+
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View();
             }
             catch
             {
@@ -84,24 +111,14 @@ namespace Sgiq.Web.Controllers
         // GET: ParteInteressada/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: ParteInteressada/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            var pi = Context.ParteInteressada.Find(id);
+            if (pi == null)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
+                return BadRequest();
             }
-            catch
-            {
-                return View();
-            }
+            Context.ParteInteressada.Remove(pi);
+            Context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

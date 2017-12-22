@@ -110,22 +110,73 @@ namespace Sgiq.Web.Controllers
         // GET: Projeto/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var projeto = Context.Projeto
+                .FirstOrDefault(p => p.ProjetoId == id);
+            if(projeto == null)
+            {
+                return BadRequest();
+            }
+            var pev = new ProjetoEditView
+            {
+                Id = projeto.ProjetoId,
+                Nome = projeto.Nome,
+                Descricao = projeto.Descricao,
+                DtInicioPrevisto = projeto.DtInicioPrevista,
+                DtTFimPrevisto = projeto.DtTerminoPrevista,
+                CustoEstimado = projeto.CustoEstimado
+            };
+            var partesInteressadas = Context.ParteInteressada.AsEnumerable();
+            pev.GerenteProjetoId = Context.ParteInteressadaProjeto.Include(pi => pi.Papel).FirstOrDefault(pi => pi.Papel.Nome.ToLower() == "gerente de projetos").ParteInteressadaId;
+            pev.ClienteId = Context.ParteInteressadaProjeto.Include(pi => pi.Papel).FirstOrDefault(pi => pi.Papel.Nome.ToLower() == "cliente").ParteInteressadaId;
+            ViewBag.PartesInteressadas = partesInteressadas;
+            return View(pev);
         }
 
         // POST: Projeto/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, ProjetoEditView model)
         {
             try
             {
-                // TODO: Add update logic here
+                // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var projeto = Context.Projeto.Find(id);
+
+                    projeto.Nome = model.Nome;
+                    projeto.Descricao = model.Descricao;
+                    projeto.DtInicioPrevista = model.DtInicioPrevisto;
+                    projeto.DtTerminoPrevista = model.DtTFimPrevisto;
+                    projeto.CustoEstimado = model.CustoEstimado;
+
+                    projeto.PartesInteressadasProjeto = new List<ParteInteressadaProjeto>();                    
+
+                    //Adicionando cliente
+                    ParteInteressadaProjeto cliente = new ParteInteressadaProjeto { Projeto = projeto };
+                    cliente.ParteInteressada = Context.ParteInteressada.Where(pi => pi.ParteInteressadaId == model.ClienteId).FirstOrDefault();
+                    cliente.Papel = Context.Papel.Where(pap => pap.Nome.ToLower() == "cliente").FirstOrDefault();
+
+                    //Adicionar Gerente de Projetos
+                    ParteInteressadaProjeto gerenteProjetos = new ParteInteressadaProjeto { Projeto = projeto };
+                    gerenteProjetos.ParteInteressada = Context.ParteInteressada.Where(pi => pi.ParteInteressadaId == model.GerenteProjetoId).FirstOrDefault();
+                    gerenteProjetos.Papel = Context.Papel.Where(pap => pap.Nome.ToLower() == "gerente de projetos").FirstOrDefault();
+
+                    Context.ParteInteressadaProjeto.Add(gerenteProjetos);
+                    Context.ParteInteressadaProjeto.Add(gerenteProjetos);
+                    projeto = Context.Projeto.Update(projeto).Entity;
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                var partesInteressadas = Context.ParteInteressada.AsEnumerable();
+                ViewBag.PartesInteressadas = partesInteressadas;
+                return View();
             }
-            catch
+            catch (Exception e)
             {
+                var partesInteressadas = Context.ParteInteressada.AsEnumerable();
+                ViewBag.PartesInteressadas = partesInteressadas;
                 return View();
             }
         }
@@ -133,7 +184,23 @@ namespace Sgiq.Web.Controllers
         // GET: Projeto/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                var projeto = Context.Projeto
+                .FirstOrDefault(p => p.ProjetoId == id);
+                if (projeto == null)
+                {
+                    return BadRequest();
+                }
+                Context.Projeto.Remove(projeto);
+                Context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+            
         }
 
         // POST: Projeto/Delete/5

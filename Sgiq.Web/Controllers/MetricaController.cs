@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sgiq.Dados;
 using Sgiq.Web.Models;
+using Sgiq.Dados.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Sgiq.Web.Controllers
 {
@@ -21,7 +23,8 @@ namespace Sgiq.Web.Controllers
         // GET: Atividade
         public ActionResult Index()
         {
-            return View(Context.Metrica.AsEnumerable());
+            var metricas = Context.Metrica.Include(m => m.FrequenciaAfericao).AsEnumerable();
+            return View(metricas);
         }
 
         // GET: Metrica/Create
@@ -36,16 +39,33 @@ namespace Sgiq.Web.Controllers
         // POST: Metrica/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(MetricaView model)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var metrica = new Metrica
+                    {
+                        FrequenciaAfericaoId = model.FrequenciaAfericaoId,
+                        Nome = model.Nome,
+                        Descricao = model.Descricao,
+                        Formula = model.Formula
+                    };
+                    Context.Metrica.Add(metrica);
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewBag.MedidasMetricas = new List<MedidaMetricaView>();
+                ViewBag.Medidas = Context.Medida.AsEnumerable();
+                ViewBag.FrequenciasAfericao = Context.FrequenciaAfericao.AsEnumerable();
+                return View();
             }
             catch
             {
+                ViewBag.MedidasMetricas = new List<MedidaMetricaView>();
+                ViewBag.Medidas = Context.Medida.AsEnumerable();
+                ViewBag.FrequenciasAfericao = Context.FrequenciaAfericao.AsEnumerable();
                 return View();
             }
         }
@@ -53,49 +73,73 @@ namespace Sgiq.Web.Controllers
         // GET: Metrica/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var metrica = Context.Metrica.Find(id);
+            if (metrica == null)
+            {
+                return BadRequest();
+            }
+            ViewBag.MedidasMetricas = new List<MedidaMetricaView>();
+            ViewBag.Medidas = Context.Medida.AsEnumerable();
+            ViewBag.FrequenciasAfericao = Context.FrequenciaAfericao.AsEnumerable();
+            var metricaView = new MetricaEditView
+            {
+                Id =  id,
+                Nome  = metrica.Nome,
+                Formula = metrica.Formula,
+                Descricao = metrica.Descricao,
+                FrequenciaAfericaoId = metrica.FrequenciaAfericaoId
+            };
+            return View(metricaView);
         }
 
         // POST: Metrica/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(MetricaEditView model)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var metrica = Context.Metrica.Find(model.Id);
+                    metrica.FrequenciaAfericaoId = model.FrequenciaAfericaoId;
+                    metrica.Nome = model.Nome;
+                    metrica.Descricao = model.Descricao;
+                    metrica.Formula = model.Formula;
+                    
+                    Context.Metrica.Update(metrica);
+                    Context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewBag.MedidasMetricas = new List<MedidaMetricaView>();
+                ViewBag.Medidas = Context.Medida.AsEnumerable();
+                ViewBag.FrequenciasAfericao = Context.FrequenciaAfericao.AsEnumerable();
+                return View();
             }
             catch
             {
+                ViewBag.MedidasMetricas = new List<MedidaMetricaView>();
+                ViewBag.Medidas = Context.Medida.AsEnumerable();
+                ViewBag.FrequenciasAfericao = Context.FrequenciaAfericao.AsEnumerable();
                 return View();
             }
         }
 
-        // GET: Metrica/Delete/5
+
+
         public ActionResult Delete(int id)
         {
-            return View();
+            var metrica = Context.Metrica.FirstOrDefault(p => p.MetricaId == id);
+            if (metrica == null)
+                return BadRequest();
+
+            Context.Metrica.Remove(metrica);
+            Context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+
+
         }
-
-        // POST: Metrica/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         [HttpPost]
         public ActionResult AddMedida(IFormCollection collection)
         {

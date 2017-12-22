@@ -53,9 +53,8 @@
                                     @Html.DisplayFor(modelItem => item.Telefone)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.ParteInteressadaId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.ParteInteressadaId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.ParteInteressadaId">Delete</a>
+                                    <a asp-action="Edit" asp-route-id="@item.ParteInteressadaId" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.ParteInteressadaId" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         }

@@ -12,7 +12,7 @@ namespace Sgiq.Web.Models
         [Required]
         public string Telefone { get; set; }
     }
-    public class ParteInteressadaEdit : ParteInteressadaView, EditableModel
+    public class ParteInteressadaEditView : ParteInteressadaView, EditableModel
     {
         public int Id { get; set; }
     }

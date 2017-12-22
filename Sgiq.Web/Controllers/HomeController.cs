@@ -12,6 +12,7 @@ namespace Sgiq.Web.Controllers
     {
         public IActionResult Index()
         {
+            
             return View();
         }
 

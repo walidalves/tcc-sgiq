@@ -70,32 +70,81 @@ namespace Sgiq.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        [Route("Edit/{id}")]
+        public ActionResult Edit(int id, int projetoId)
         {
-            return View();
+            var atividade = Context.Atividade.Find(id);
+            if(atividade == null)
+            {
+                return BadRequest();
+            }
+            var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == projetoId);
+            ViewBag.Projeto = projeto;
+            var atividadeView = new AtividadeEditView
+            {
+                Id = atividade.AtividadeId,
+                Nome = atividade.Nome,
+                Descricao = atividade.Descricao,
+                DtInicio = atividade.DtInicioPrevista,
+                DtFim = atividade.DtTerminoPrevista
+            };
+            return View(atividadeView);
         }
 
-        [HttpPut]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, AtividadeEditView model)
+        [Route("Edit/{id}")]
+        public ActionResult Edit(AtividadeEditView model)
         {
             try
             {
-                // TODO: Add update logic here
+                // TODO: Add insert logic here
 
-                return RedirectToAction("Details", "Projeto", new { ProjetoId = model.ProjetoId });
+                if (ModelState.IsValid)
+                {
+
+                    var atividade = Context.Atividade.Find(model.Id);
+                    if (atividade == null)
+                    {
+                        return BadRequest();
+                    }
+
+                    atividade.Nome = model.Nome;
+                    atividade.Descricao = model.Descricao;
+                    atividade.DtInicioPrevista = model.DtInicio;
+                    atividade.DtTerminoPrevista = model.DtFim;
+                    
+
+                    atividade.Projeto = Context.Projeto.Where(p => p.ProjetoId == model.ProjetoId).FirstOrDefault();
+                    Context.Atividade.Update(atividade);
+
+                    Context.SaveChanges();
+                    return RedirectToAction("Details", "Projeto", new { Id = model.ProjetoId });
+                }
+                var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                ViewBag.Projeto = projeto;
+                return View();
             }
-            catch
+            catch (Exception e)
             {
+                var projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                ViewBag.Projeto = projeto;
                 return View();
             }
         }
 
-        [Route("Delete")]
-        [HttpDelete]
-        public ActionResult Delete(int id)
+        [Route("Delete/{id}")]
+        [HttpGet]
+        public ActionResult Delete(int id, int projetoId)
         {
-            return View();
+            var atividade = Context.Atividade.Find(id);
+            if (atividade == null)
+            {
+                return BadRequest();
+            }
+            Context.Atividade.Remove(atividade);
+            Context.SaveChanges();
+            return RedirectToAction("Details", "Projeto", new { Id = projetoId });
         }
     }
 }
