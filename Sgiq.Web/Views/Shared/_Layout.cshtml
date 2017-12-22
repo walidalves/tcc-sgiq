@@ -32,28 +32,12 @@
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
 
-                    <a class="nav-link" href="/">
+                    <a class="nav-link" href="@Url.Action("Index", "Home", null)">
                         <i class="fa fa-fw fa-dashboard"></i>
                         <span class="nav-link-text">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Métricas">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-area-chart"></i>
-                        <span class="nav-link-text">Métricas</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseComponents">
-                        <li>
-                            <a href="/Indicador">Indicadores</a>
-                        </li>
-                        <li>
-                            <a href="/Medida">Medidas</a>
-                        </li>
-                        <li>
-                            <a href="/Metrica">Métricas</a>
-                        </li>
-                    </ul>
-                </li>
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
                         <i class="fa fa-fw fa-file"></i>
@@ -64,20 +48,26 @@
                             <a href="/Projeto">Projetos</a>
                         </li>
                         <li>
-                            <a href="Requisito">Requisitos</a>
-                        </li>
-                        <li>
-                            <a href="/Atividade">Atividades</a>
-                        </li>
-                        <li>
                             <a href="/ParteInteressada">Partes Interessadas</a>
                         </li>
+                    </ul>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Métricas">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-area-chart"></i>
+                        <span class="nav-link-text">Métricas</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseComponents">
                         <li>
-                            <a href="/Medicao">Medições</a>
+                            <a href="/Medida">Medidas</a>
                         </li>
                         <li>
-                            <a href="/Satisfacao">Avaliação</a>
+                            <a href="/Metrica">Métricas</a>
                         </li>
+                        <li>
+                            <a href="/Indicador">Indicadores</a>
+                        </li>
+                        
                     </ul>
                 </li>
             </ul>

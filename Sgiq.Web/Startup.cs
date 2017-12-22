@@ -25,9 +25,9 @@ namespace Sgiq
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SGIQContext>();
-            services.AddMvc();
-            services.AddRouting();
+            services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession();
+            services.AddRouting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,12 +49,13 @@ namespace Sgiq
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Autenticacao}/{action=Index}/{id?}");
             });
 
-
+            app.UseSession();
             /* Inclusão de Dados das tabelas auxiliares */
             CriarTabelasAuxiliares();
+            
         }
 
         private void CriarTabelasAuxiliares()

@@ -69,33 +69,73 @@ namespace Sgiq.Web.Controllers
 
         [HttpGet]
         [Route("Edit/{id}")]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, int projetoId)
         {
-            return View();
+            var requisito = Context.Requisito.Find(id);
+            if (requisito == null)
+            {
+                return BadRequest();
+            }
+            
+            var reqView = new RequisitoEditView
+            {
+                Id = id,
+                TipoRequisitoId = requisito.TipoRequisitoId,
+                Descricao = requisito.Descricao,
+                ProjetoId = requisito.ProjetoId
+            };
+            var projeto = Context.Projeto.Include(p => p.Requisitos).FirstOrDefault(p => p.ProjetoId == projetoId);
+            var tiposRequisitos = Context.TipoRequisito.AsEnumerable();
+            ViewBag.Projeto = projeto;
+            ViewBag.TiposRequisito = tiposRequisitos;
+            return View(reqView);
         }
 
         // POST: Requisito/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Edit/{id}")]
-        public ActionResult Edit(int id, RequisitoEditView model)
+        public ActionResult Edit(RequisitoEditView model)
         {
             try
             {
-                // TODO: Add update logic here
 
-                return RedirectToAction("Details","Projeto", new { ProjetoId = model.ProjetoId});
+                if (ModelState.IsValid)
+                {
+                    var requisito = Context.Requisito.Find(model.Id);
+                    if(requisito == null)
+                    {
+                        return BadRequest();
+                    }
+                    requisito.Descricao = model.Descricao;
+                    requisito.TipoRequisito = Context.TipoRequisito.FirstOrDefault(tr => tr.TipoRequisitoId == model.TipoRequisitoId);
+                    requisito.Projeto = Context.Projeto.FirstOrDefault(p => p.ProjetoId == model.ProjetoId);
+                    Context.Requisito.Update(requisito);
+
+                    Context.SaveChanges();
+                    return RedirectToAction("Details", "Projeto", new { Id = model.ProjetoId });
+                }
+                var tiposRequisitos = Context.TipoRequisito.AsEnumerable();
+                return View();
             }
             catch
             {
+                var tiposRequisitos = Context.TipoRequisito.AsEnumerable();
                 return View();
             }
         }
         [Route("Delete/{id}")]
-        [HttpDelete]
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult Delete(int id, int projetoId)
         {
-            return View();
+            var requisito = Context.Requisito.Find(id);
+            if (requisito == null)
+            {
+                return BadRequest();
+            }
+            Context.Requisito.Remove(requisito);
+            Context.SaveChanges();
+            return RedirectToAction("Details", "Projeto", new { Id = projetoId });
         }
     }
 }

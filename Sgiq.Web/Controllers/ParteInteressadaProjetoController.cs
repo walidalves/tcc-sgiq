@@ -79,17 +79,19 @@ namespace Sgiq.Web.Controllers
             }
         }
 
-        // GET: ParteInteressadaProjeto/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-
-        // GET: ParteInteressadaProjeto/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        [Route("Delete/{id}")]
+        public ActionResult Delete(int id, int projetoId)
         {
-            return View();
+            var pip = Context.ParteInteressadaProjeto.FirstOrDefault(p=>p.ProjetoId == projetoId && p.ParteInteressadaId == id);
+            if(pip == null)
+            {
+                return BadRequest();
+            }
+            Context.ParteInteressadaProjeto.Remove(pip);
+            Context.SaveChanges();
+            return RedirectToAction("Details", "Projeto", new { Id = projetoId });
         }
 
     }

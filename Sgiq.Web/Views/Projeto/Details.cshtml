@@ -95,8 +95,8 @@
                                     @Html.DisplayFor(modelItem => item.DtTerminoPrevista)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-controller="Requisito" asp-route-id="@item.AtividadeId" asp-route-projeto-id="@Model.ProjetoId">Edit</a> |
-                                    <a asp-action="Delete" asp-controller="Requisito" asp-route-id="@item.AtividadeId" asp-route-projeto-id="@Model.ProjetoId">Delete</a>
+                                    <a class="btn btn-xs btn-success" href="@Url.Action("Edit", "Atividade", new {ProjetoId = Model.ProjetoId, Id = item.AtividadeId })"><i class="fa fa-pencil"></i></a> |
+                                    <a href="@Url.Action("Delete", "Atividade", new {ProjetoId = Model.ProjetoId, Id = item.AtividadeId })" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
@@ -150,8 +150,8 @@
                                     @Html.DisplayFor(modelItem => item.TipoRequisito.Nome)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-controller="Requisito" asp-route-id="@item.RequisitoId" asp-route-projeto-id="@Model.ProjetoId">Edit</a> |
-                                    <a asp-action="Delete" asp-controller="Requisito" asp-route-id="@item.RequisitoId" asp-route-projeto-id="@Model.ProjetoId">Delete</a>
+                                    <a href="@Url.Action("Edit", "Requisito", new { ProjetoId = item.ProjetoId, Id = item.RequisitoId})" class="btn btn-xs btn btn-success"><i class="fa fa-pencil"></i></a> |
+                                    <a href="@Url.Action("Delete", "Requisito", new { ProjetoId = item.ProjetoId, Id = item.RequisitoId})" class="btn btn-xs btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
@@ -205,8 +205,7 @@
                                     @Html.DisplayFor(modelItem => item.Papel.Nome)
                                 </td>
                                 <td>
-                                    
-                                    <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "ParteInteressadaProjeto", new {ProjetoId = Model.ProjetoId, ParteInteressadaId = item.ParteInteressadaId })"><i class="fa fa-trash"></i></a>
+                                    <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "ParteInteressadaProjeto", new {ProjetoId = Model.ProjetoId, Id = item.ParteInteressadaId })"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
@@ -214,7 +213,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="4">Nenhum Registro Encontrado</td>
+                            <td colspan="3">Nenhum Registro Encontrado</td>
                         </tr>
                     }
                 </tbody>
